@@ -1,0 +1,21 @@
+# PROVIDED. Your service, a Prometheus that scrapes it and a Jaeger that receives its traces.
+name: instrument-lab
+services:
+  loyalty:
+    build: ./service
+    image: loyalty-lab:1
+    environment:
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://jaeger:4318
+      OTEL_SERVICE_NAME: loyalty
+    ports: ["127.0.0.1:8080:8080"]
+    depends_on: [jaeger]
+  prometheus:
+    image: prom/prometheus:v2.55.1
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports: ["127.0.0.1:9096:9090"]
+  jaeger:
+    image: jaegertracing/all-in-one:1.62.0
+    environment:
+      COLLECTOR_OTLP_ENABLED: "true"
+    ports: ["127.0.0.1:16686:16686"]

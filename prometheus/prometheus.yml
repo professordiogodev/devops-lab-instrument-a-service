@@ -1,0 +1,7 @@
+# PROVIDED.
+global:
+  scrape_interval: 5s
+scrape_configs:
+  - job_name: loyalty
+    static_configs:
+      - targets: ["loyalty:8080"]

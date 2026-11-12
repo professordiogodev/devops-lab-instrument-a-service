@@ -22,13 +22,22 @@
 
 ## 🎬 The situation
 
-<p align="center"><img src="assets/gifs/situation.gif" width="300" alt="Animation: prometheus_client + opentelemetry"></p>
+<p align="center"><img src="assets/gifs/situation.gif" width="300" alt="A service starting to emit logs, metrics and traces"></p>
 
-Over the last days you worked with services that were *built to be observed*: Beanie writes JSON logs with a request id, exposes `/metrics`, and emits a trace for every order. That did not happen by accident. Somebody wrote that code, and the day they did not, the first production incident was a guessing game.
+```text
+GO-LIVE REVIEW - loyalty-points service                     go-live: Monday
+Function      : awards points to customers, +10% bonus on big purchases
+Code review   : passed
+Tests         : green
+Logs          : none
+Metrics       : none
+Traces        : none
+Decision      : NOT READY TO RUN IN PRODUCTION
+```
 
-The new **loyalty-points service** is that service. It awards points to customers (with a ten percent bonus on big purchases) and it works: it passed code review, the tests are green, it is going live on Monday. It also logs nothing, measures nothing and traces nothing. If it gets slow on Tuesday, or starts answering 404 to customers who should exist, there will be no way to tell *why*, *since when* or *for whom*.
+Everything you observed over the last days was *built to be observed*: Beanie writes JSON logs with a request id, exposes `/metrics` and emits a trace for every order. Somebody wrote that code, and the day nobody did, the first production incident was a guessing game. If the loyalty service gets slow on Tuesday, or answers 404 to customers who should exist, nothing will say *why*, *since when* or *for whom*.
 
-You will fix that without changing a single thing the service does. Three signals, three small pieces of code, each with a trap that real teams fall into.
+You will open the gate without changing a single thing the service does: three signals, three small pieces of code, each with a trap that real teams fall into.
 
 > [!IMPORTANT]
 > **Your mission**
